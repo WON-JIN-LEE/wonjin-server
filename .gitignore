@@ -1,0 +1,7 @@
+.gitmessage.txt
+node_modules
+.env
+
+AWS_api_test.rest
+local_api_test.rest
+test.js
