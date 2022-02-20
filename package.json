@@ -4,7 +4,8 @@
   "description": "프론트엔드와 함께 로그인 사용자용 매거진 사이트 만들기",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint routes --fix"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,15 @@
   "dependencies": {
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "moment": "^2.29.1"
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.16.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "sequelize-cli": "^6.4.1"
   }
 }

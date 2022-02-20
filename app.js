@@ -1,24 +1,29 @@
 const express = require("express");
+const { Op } = require("sequelize");
+const { User } = require("./models/index");
+
+const usersRouter = require("./routes/users");
+const boardsRouter = require("./routes/board");
 const app = express();
 const port = 3000;
 
-const postsRouter = require("./routes/posts");
-
-
-// Request log
+//  Request log
 const requestMiddleware = (req, res, next) => {
   console.log("Request URL: ", req.originalUrl, "-", new Date());
   next();
 };
 app.use(requestMiddleware);
-app.use(express.json()); // for parsing application/json 
-app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(express.json()); // for parsing application/json
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-// app.use("/api", [postsRouter]);
+// 회원 route
+app.use("/", usersRouter);
 
+// 게시판 route
+app.use("/post", [boardsRouter]);
 
 app.get("/", (req, res) => {
-  res.send("hello world");
+  res.send("hello wonjin world");
 });
 
 app.listen(port, () => {
