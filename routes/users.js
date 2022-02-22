@@ -4,11 +4,41 @@ const { Op } = require("sequelize");
 const { User } = require("../models/index");
 const router = express.Router();
 require("dotenv").config();
+const joi = require("joi");
 
+
+
+const chkSchema = joi.object({
+  nickname: joi.string().alphanum().min(3).max(30).required(),
+  password: joi.string().min(4).required(),
+});
 
 // 회원가입 api
 router.post("/register", async (req, res) => {
-  const { user_id, nickname, user_pw } = req.body;
+  const { user_id, nickname, user_pw, pw_check } = req.body;
+
+  try {
+    await chkSchema.validateAsync({
+      nickname: nickname,
+      password: user_pw,
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(400).send({
+      msg: "닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성해야합니다. 비밀번호는 최소 4자 이상이어야 합니다.,",
+    });
+  }
+  if (user_pw.includes(nickname)) {
+    return res.status(400).send({
+      msg: "비밀번호에 닉네임과 같은 값이 포함되면 안됩니다.",
+    });
+  }
+
+  if (user_pw !== pw_check) {
+    return res.status(400).send({
+      msg: "비밀번호가 일치하지 않습니다.",
+    });
+  }
 
   const existUsers = await User.findAll({
     where: {
