@@ -9,11 +9,14 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       userId: {
-        primaryKey: true,
+        allowNull: false,
         type: Sequelize.STRING,
+
       },
       postId: {
-        type: Sequelize.NUMBER,
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      
       },
       check: {
         type: Sequelize.BOOLEAN,

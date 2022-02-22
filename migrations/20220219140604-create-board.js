@@ -10,6 +10,7 @@ module.exports = {
       },
       userId: {
         type: Sequelize.STRING,
+  
       },
       img: {
         type: Sequelize.STRING,

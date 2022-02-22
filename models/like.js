@@ -22,5 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Like",
     }
   );
+
+
   return Like;
 };

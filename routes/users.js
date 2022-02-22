@@ -5,12 +5,28 @@ const { User } = require("../models/index");
 const router = express.Router();
 require("dotenv").config();
 const joi = require("joi");
-
-
+const authMiddleware = require("../middlewares/auth-middleware");
+const logedMiddleware = require("../middlewares/logedMiddleware");
 
 const chkSchema = joi.object({
   nickname: joi.string().alphanum().min(3).max(30).required(),
   password: joi.string().min(4).required(),
+});
+
+router.get("/register", logedMiddleware, async (req, res) => {
+  const { loggedin } = res.locals;
+  if (loggedin) {
+    res.send({msg:"이미 로그인된 사용자입니다."});
+    // res.redirect("/");
+  }
+});
+
+router.get("/login", logedMiddleware, async (req, res) => {
+  const { loggedin } = res.locals;
+  if (loggedin) {
+    res.send({ msg: "이미 로그인된 사용자입니다." });
+    // res.redirect("/");
+  }
 });
 
 // 회원가입 api
@@ -45,6 +61,7 @@ router.post("/register", async (req, res) => {
       [Op.or]: [{ userId: user_id }, { nickname }],
     },
   });
+
   if (existUsers.length) {
     return res.status(400).send({
       msg: "이미 가입된 이메일 또는 닉네임이 있습니다.",
@@ -63,6 +80,7 @@ router.post("/login", async (req, res) => {
     where: { userId: user_id, password: user_pw },
   });
 
+  console.log(user);
   if (!user) {
     return res.status(400).send({
       msg: "아이디와 패스워드가 잘못되었습니다.",
@@ -71,7 +89,14 @@ router.post("/login", async (req, res) => {
 
   const token = jwt.sign({ userId: user.userId }, process.env.TOKEN_SECRET_KEY);
   console.log(token);
-  res.send({ msg: true, mytoken: token });
+  res.send({ msg: true, mytoken: token, nickname: user.nickname });
 });
+
+// 로그아웃
+router.delete("/logout", authMiddleware, async (req, res) => {
+  res.clearCookie("mytoken");
+  res.send({ msg: "로그아웃 되었습니다." });
+});
+
 
 module.exports = router;

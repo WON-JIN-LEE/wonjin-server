@@ -24,7 +24,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Board",
+      charset: "utf8", // 한국어 설정
+      collate: "utf8_general_ci", // 한국어 설정
     }
   );
+
+  
   return Board;
 };
