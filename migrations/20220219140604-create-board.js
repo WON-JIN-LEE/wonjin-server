@@ -8,13 +8,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
+      content: {
         type: Sequelize.STRING,
       },
       img: {
         type: Sequelize.STRING,
       },
-      content: {
+      img_position: {
         type: Sequelize.STRING,
       },
       createdAt: {

@@ -8,18 +8,31 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+       this.belongsTo(models.Board, {
+         foreignKey: "postId",
+         targetKey: "postId",
+       });
+       this.belongsTo(models.User, {
+         foreignKey: "userId",
+         targetKey: "userId",
+       });
     }
   }
   Like.init(
     {
-      userId: DataTypes.STRING,
-      postId: DataTypes.NUMBER,
+      likeId: {
+        primaryKey: true,
+        autoIncrement: true,
+        type: DataTypes.INTEGER,
+      },
       check: DataTypes.BOOLEAN,
     },
     {
       sequelize,
       modelName: "Like",
+      timestamps: true,
+      charset: "utf8mb4",
+      collate: "utf8_generak_Ci",
     }
   );
   return Like;

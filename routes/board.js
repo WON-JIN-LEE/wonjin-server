@@ -1,17 +1,44 @@
 const express = require("express");
 const authMiddleware = require("../middlewares/auth-middleware");
 
-
 const { Op } = require("sequelize");
-const { Board } = require("../models/index");
+const { Board, Like, User } = require("../models/index");
 
 const router = express.Router();
 
 // 전체 게시글 목록 조회 API
 router.get("/", async (req, res) => {
-  const posts = await Board.findAll();
+  const posts = await Board.findAll({
+    include: [
+      {
+        model: User,
+        required: false,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Like,
+        required: false,
+        attributes: ["userId", "postId"],
+      },
+    ],
+  });
+  console.log(posts);
+  const posts_obj = posts.map((ele) => {
+    const obj = {
+      post_id: ele["postId"],
+      userId: ele["userId"],
+      post_content: ele["content"],
+      post_img: ele["img"],
+      img_position: ele["img_position"],
+      nickname: ele["User"]["nickname"],
+      post_like: ele["Likes"].length,
+      createdAt: ele["createdAt"],
+      upload_date: ele["updatedAt"],
+    };
 
-  res.json({ posts });
+    return obj;
+  });
+  res.json({ posts: posts_obj });
 });
 
 // 게시글 상세 조회 API
@@ -22,23 +49,58 @@ router.get("/:postId", async (req, res) => {
       .status(400)
       .json({ msg: false, errorMessage: "요청이 올바르지 않습니다." });
   }
-  const post = await Board.findOne({ where: { postId } });
+  const post = await Board.findOne({
+    where: { postId },
+    include: [
+      {
+        model: User,
+        required: false,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Like,
+        required: false,
+        attributes: ["userId", "postId"],
+      },
+    ],
+  });
 
-  res.json({ post });
+  if (!post) {
+    return res
+      .status(400)
+      .json({ msg: false, errorMessage: "없는 게시글 입니다." });
+  }
+  console.log(post);
+
+ const post_obj = {
+   post_id: post["postId"],
+   userId: post["userId"],
+   post_content: post["content"],
+   post_img: post["img"],
+   img_position: post["img_position"],
+   nickname: post["User"]["nickname"],
+   post_like: post["Likes"].length,
+   createdAt: post["createdAt"],
+   upload_date: post["updatedAt"],
+ };
+
+  res.json({ post: post_obj });
 });
 
 // // 게시글 추가 API
-router.post("/", authMiddleware,async (req, res) => {
-  const { nickname, post_img, post_content } = req.body;
+router.post("/", authMiddleware, async (req, res) => {
+  const { img_position, post_img, post_content } = req.body;
+  const userId = res.locals.user.userId;
 
-  if (!nickname || !post_img || !post_content) {
+  if (!img_position || !post_img || !post_content) {
     return res
       .status(400)
       .json({ msg: false, errorMessage: "내용을 입력해주세요." });
   }
 
   await Board.create({
-    userId: nickname,
+    userId: userId,
+    img_position: img_position,
     img: post_img,
     content: post_content,
   });
@@ -47,14 +109,14 @@ router.post("/", authMiddleware,async (req, res) => {
 });
 
 // 게시글 수정 API
-router.put("/:postId", authMiddleware,async (req, res) => {
+router.put("/:postId", authMiddleware, async (req, res) => {
   const postId = Number(req.params.postId);
   if (!postId) {
     return res
       .status(400)
       .json({ msg: false, errorMessage: "요청이 올바르지 않습니다." });
   }
-  const { post_img, post_content } = req.body;
+  const { post_img, img_position,post_content } = req.body;
 
   const esistsBoard = await Board.findOne({ where: { postId } });
   if (!esistsBoard) {
@@ -64,7 +126,7 @@ router.put("/:postId", authMiddleware,async (req, res) => {
   }
 
   const temp = await Board.update(
-    { img: post_img, content:post_content },
+    { img: post_img, img_position ,content: post_content },
     { where: { postId } }
   );
   console.log(temp);
@@ -78,32 +140,44 @@ router.delete("/:postId", authMiddleware, async (req, res) => {
     return res
       .status(400)
       .json({ msg: false, errorMessage: "요청이 올바르지 않습니다." });
-    }
-    
+  }
+
   const esistsBoard = await Board.findOne({ where: { postId } });
   if (!esistsBoard) {
     return res
       .status(400)
       .json({ msg: false, errorMessage: "게시글이 존재하지 않습니다." });
   }
-    
-    
+
   await Board.destroy({ where: { postId } });
 
   res.json({ msg: true });
 });
 
-
 // 좋아요 api
-router.get("/:postId/like", authMiddleware, async (req, res) => {
-     const postId = Number(req.params.postId);
-     if (!postId) {
-       return res
-         .status(400)
-         .json({ msg: false, like_check: false });
-     }
-    
-    res.json({ msg: true, like_check: true });
+router.put("/:postId/like", authMiddleware, async (req, res) => {
+  const postId = Number(req.params.postId);
+  const userId = res.locals.user.userId;
+  if (!postId) {
+    return res
+      .status(400)
+      .json({ msg: "잘못된 요청입니다.", like_check: false });
+  }
+
+  const existsLike = await Like.findAll({ where: { userId, postId } });
+  if (existsLike.length) {
+    await Like.destroy({ where: { userId, postId } });
+    return res
+      .status(200)
+      .json({ msg: "좋아요가 취소되었습니다.", like_check: false });
+  } else {
+    await Like.create({
+      userId,
+      postId,
+      check: 1,
+    });
+    return res.json({ msg: "좋아요가 완료되었습니다.", like_check: true });
+  }
 });
 
 module.exports = router;

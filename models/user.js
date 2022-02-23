@@ -8,23 +8,33 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+          this.hasMany(models.Board, {
+            foreignKey: "userId",
+            sourceKey: "userId",
+          });
+          this.hasMany(models.Like, {
+            foreignKey: "userId",
+            sourceKey: "userId",
+          });
     }
   }
   User.init(
     {
-      id: {
+      userId: {
         primaryKey: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
       },
-      userId: DataTypes.STRING,
-      nickname: DataTypes.STRING,
       password: DataTypes.STRING,
+      nickname: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "User",
+      timestamps: true,
+      charset: "utf8mb4",
+      collate: "utf8_generak_Ci",
     }
   );
+
   return User;
 };

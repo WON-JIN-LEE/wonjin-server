@@ -1,12 +1,18 @@
 const express = require("express");
 const Http = require("http");
 const socketIo = require("socket.io");
+const cookieParser = require("cookie-parser");
+
+const requestMiddleware = require("./middlewares/requestMiddleware");
 const usersRouter = require("./routes/users");
 const boardsRouter = require("./routes/board");
 
 const app = express();
 const http = Http.createServer(app);
 const cors = require("cors");
+var corsOptions = {
+  origin: "클라이언트 도메인",
+};
 
 const io = socketIo(http, {
   cors: "*",
@@ -31,14 +37,10 @@ const port = 3000;
 //   });
 // });
 
-//  Request log
-const requestMiddleware = (req, res, next) => {
-  console.log("Request URL: ", req.originalUrl, "-", new Date());
-  next();
-};
-
+// app.use(cors(corsOptions));
 app.use(cors());
 app.use(requestMiddleware);
+app.use(cookieParser());
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
