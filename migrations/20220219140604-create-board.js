@@ -8,14 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
+      content: {
         type: Sequelize.STRING,
-  
       },
       img: {
-        type: Sequelize.STRING,
-      },
-      content: {
         type: Sequelize.STRING,
       },
       createdAt: {

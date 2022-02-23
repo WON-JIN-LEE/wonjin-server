@@ -2,18 +2,41 @@ const express = require("express");
 const authMiddleware = require("../middlewares/auth-middleware");
 
 const { Op } = require("sequelize");
-const { Board, Like ,User} = require("../models/index");
+const { Board, Like, User } = require("../models/index");
 
 const router = express.Router();
 
 // 전체 게시글 목록 조회 API
 router.get("/", async (req, res) => {
-  // const posts = await Board.findAll({
-  //   attributes: ["postId", "userId"],
-  // });
-  const posts = await Board.findAll();
-  console.log(posts);
-  res.json({ posts });
+  const posts = await Board.findAll({
+    include: [
+      {
+        model: User,
+        required: false,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Like,
+        required: false,
+        attributes: ["userId", "postId"],
+      },
+    ],
+  });
+  const posts_obj = posts.map((ele) => {
+    const obj = {};
+
+    obj["post_id"] = ele["postId"];
+    obj["userId"] = ele["userId"];
+    obj["post_content"] = ele["content"];
+    obj["post_img"] = ele["img"];
+    obj["nickname"] = ele["User"].nickname;
+    obj["post_like"] = ele["Likes"].length;
+    obj["createdAt"] = ele["createdAt"];
+    obj["upload_date"] = ele["updatedAt"];
+    return obj;
+  });
+  res.json({ posts: posts_obj });
+
 });
 
 // 게시글 상세 조회 API
@@ -24,9 +47,34 @@ router.get("/:postId", async (req, res) => {
       .status(400)
       .json({ msg: false, errorMessage: "요청이 올바르지 않습니다." });
   }
-  const post = await Board.findOne({ where: { postId } });
+  const post = await Board.findOne({
+    where: { postId },
+    include: [
+      {
+        model: User,
+        required: false,
+        attributes: ["userId", "nickname"],
+      },
+      {
+        model: Like,
+        required: false,
+        attributes: ["userId", "postId"].count,
+      },
+    ],
+  });
 
-  res.json({ post });
+      const post_obj = {};
+
+      post_obj["post_id"] = post["postId"];
+      post_obj["userId"] = post["userId"];
+      post_obj["post_content"] = post["content"];
+      post_obj["post_img"] = post["img"];
+      post_obj["nickname"] = post["User"].nickname;
+      post_obj["post_like"] = post["Likes"].length;
+      post_obj["createdAt"] = post["createdAt"];
+      post_obj["upload_date"] = post["updatedAt"];
+
+  res.json({ post: post_obj });
 });
 
 // // 게시글 추가 API
