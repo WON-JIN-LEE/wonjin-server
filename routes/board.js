@@ -8,9 +8,10 @@ const router = express.Router();
 
 // 전체 게시글 목록 조회 API
 router.get("/", async (req, res) => {
-  const posts = await Board.findAll({
-    attributes: ["postId", "userId"],
-  });
+  // const posts = await Board.findAll({
+  //   attributes: ["postId", "userId"],
+  // });
+  const posts = await Board.findAll();
   console.log(posts);
   res.json({ posts });
 });
@@ -94,7 +95,7 @@ router.delete("/:postId", authMiddleware, async (req, res) => {
 });
 
 // 좋아요 api
-router.get("/:postId/like", authMiddleware, async (req, res) => {
+router.put("/:postId/like", authMiddleware, async (req, res) => {
   const postId = Number(req.params.postId);
   const userId = res.locals.user.userId;
   if (!postId) {
