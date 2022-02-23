@@ -36,6 +36,7 @@ router.get("/", async (req, res) => {
     return obj;
   });
   res.json({ posts: posts_obj });
+
 });
 
 // 게시글 상세 조회 API
@@ -142,7 +143,7 @@ router.delete("/:postId", authMiddleware, async (req, res) => {
 });
 
 // 좋아요 api
-router.get("/:postId/like", authMiddleware, async (req, res) => {
+router.put("/:postId/like", authMiddleware, async (req, res) => {
   const postId = Number(req.params.postId);
   const userId = res.locals.user.userId;
   if (!postId) {
