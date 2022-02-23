@@ -24,16 +24,18 @@ router.get("/", async (req, res) => {
   });
   console.log(posts);
   const posts_obj = posts.map((ele) => {
-    const obj = {};
+    const obj = {
+      post_id: ele["postId"],
+      userId: ele["userId"],
+      post_content: ele["content"],
+      post_img: ele["img"],
+      img_position: ele["img_position"],
+      nickname: ele["User"]["nickname"],
+      post_like: ele["Likes"].length,
+      createdAt: ele["createdAt"],
+      upload_date: ele["updatedAt"],
+    };
 
-    obj["post_id"] = ele["postId"];
-    obj["userId"] = ele["userId"];
-    obj["post_content"] = ele["content"];
-    obj["post_img"] = ele["img"];
-    obj["nickname"] = ele["User"]["nickname"];
-    obj["post_like"] = ele["Likes"].length;
-    obj["createdAt"] = ele["createdAt"];
-    obj["upload_date"] = ele["updatedAt"];
     return obj;
   });
   res.json({ posts: posts_obj });
@@ -58,37 +60,47 @@ router.get("/:postId", async (req, res) => {
       {
         model: Like,
         required: false,
-        attributes: ["userId", "postId"].count,
+        attributes: ["userId", "postId"],
       },
     ],
   });
 
-  const post_obj = {};
+  if (!post) {
+    return res
+      .status(400)
+      .json({ msg: false, errorMessage: "없는 게시글 입니다." });
+  }
+  console.log(post);
 
-  post_obj["post_id"] = post["postId"];
-  post_obj["userId"] = post["userId"];
-  post_obj["post_content"] = post["content"];
-  post_obj["post_img"] = post["img"];
-  post_obj["nickname"] = post["User"]["nickname"];
-  post_obj["post_like"] = post["Likes"].length;
-  post_obj["createdAt"] = post["createdAt"];
-  post_obj["upload_date"] = post["updatedAt"];
+ const post_obj = {
+   post_id: post["postId"],
+   userId: post["userId"],
+   post_content: post["content"],
+   post_img: post["img"],
+   img_position: post["img_position"],
+   nickname: post["User"]["nickname"],
+   post_like: post["Likes"].length,
+   createdAt: post["createdAt"],
+   upload_date: post["updatedAt"],
+ };
 
   res.json({ post: post_obj });
 });
 
 // // 게시글 추가 API
 router.post("/", authMiddleware, async (req, res) => {
-  const { user_id, post_img, post_content } = req.body;
+  const { img_position, post_img, post_content } = req.body;
+  const userId = res.locals.user.userId;
 
-  if (!user_id || !post_img || !post_content) {
+  if (!img_position || !post_img || !post_content) {
     return res
       .status(400)
       .json({ msg: false, errorMessage: "내용을 입력해주세요." });
   }
 
   await Board.create({
-    userId: user_id,
+    userId: userId,
+    img_position: img_position,
     img: post_img,
     content: post_content,
   });
@@ -104,7 +116,7 @@ router.put("/:postId", authMiddleware, async (req, res) => {
       .status(400)
       .json({ msg: false, errorMessage: "요청이 올바르지 않습니다." });
   }
-  const { post_img, post_content } = req.body;
+  const { post_img, img_position,post_content } = req.body;
 
   const esistsBoard = await Board.findOne({ where: { postId } });
   if (!esistsBoard) {
@@ -114,7 +126,7 @@ router.put("/:postId", authMiddleware, async (req, res) => {
   }
 
   const temp = await Board.update(
-    { img: post_img, content: post_content },
+    { img: post_img, img_position ,content: post_content },
     { where: { postId } }
   );
   console.log(temp);
