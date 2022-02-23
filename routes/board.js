@@ -29,14 +29,13 @@ router.get("/", async (req, res) => {
     obj["userId"] = ele["userId"];
     obj["post_content"] = ele["content"];
     obj["post_img"] = ele["img"];
-    obj["nickname"] = ele["User"].nickname;
+    obj["nickname"] = ele["User"]["nickname"];
     obj["post_like"] = ele["Likes"].length;
     obj["createdAt"] = ele["createdAt"];
     obj["upload_date"] = ele["updatedAt"];
     return obj;
   });
   res.json({ posts: posts_obj });
-
 });
 
 // 게시글 상세 조회 API
@@ -63,16 +62,16 @@ router.get("/:postId", async (req, res) => {
     ],
   });
 
-      const post_obj = {};
+  const post_obj = {};
 
-      post_obj["post_id"] = post["postId"];
-      post_obj["userId"] = post["userId"];
-      post_obj["post_content"] = post["content"];
-      post_obj["post_img"] = post["img"];
-      post_obj["nickname"] = post["User"].nickname;
-      post_obj["post_like"] = post["Likes"].length;
-      post_obj["createdAt"] = post["createdAt"];
-      post_obj["upload_date"] = post["updatedAt"];
+  post_obj["post_id"] = post["postId"];
+  post_obj["userId"] = post["userId"];
+  post_obj["post_content"] = post["content"];
+  post_obj["post_img"] = post["img"];
+  post_obj["nickname"] = post["User"]["nickname"];
+  post_obj["post_like"] = post["Likes"].length;
+  post_obj["createdAt"] = post["createdAt"];
+  post_obj["upload_date"] = post["updatedAt"];
 
   res.json({ post: post_obj });
 });
