@@ -22,6 +22,7 @@ router.get("/", async (req, res) => {
       },
     ],
   });
+  console.log(posts);
   const posts_obj = posts.map((ele) => {
     const obj = {};
 

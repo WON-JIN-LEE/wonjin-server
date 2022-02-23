@@ -26,7 +26,7 @@ module.exports = {
           reference: {
             model: {
               tableName: "Boards",
-              key: "boardId",
+              key: "postId",
             },
           },
         },
