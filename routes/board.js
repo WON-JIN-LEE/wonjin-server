@@ -22,7 +22,6 @@ router.get("/", async (req, res) => {
       },
     ],
   });
-  console.log(posts);
   const posts_obj = posts.map((ele) => {
     const obj = {
       post_id: ele["postId"],
@@ -70,19 +69,18 @@ router.get("/:postId", async (req, res) => {
       .status(400)
       .json({ msg: false, errorMessage: "없는 게시글 입니다." });
   }
-  console.log(post);
 
- const post_obj = {
-   post_id: post["postId"],
-   userId: post["userId"],
-   post_content: post["content"],
-   post_img: post["img"],
-   img_position: post["img_position"],
-   nickname: post["User"]["nickname"],
-   post_like: post["Likes"].length,
-   createdAt: post["createdAt"],
-   upload_date: post["updatedAt"],
- };
+  const post_obj = {
+    post_id: post["postId"],
+    userId: post["userId"],
+    post_content: post["content"],
+    post_img: post["img"],
+    img_position: post["img_position"],
+    nickname: post["User"]["nickname"],
+    post_like: post["Likes"].length,
+    createdAt: post["createdAt"],
+    upload_date: post["updatedAt"],
+  };
 
   res.json({ post: post_obj });
 });
@@ -116,7 +114,7 @@ router.put("/:postId", authMiddleware, async (req, res) => {
       .status(400)
       .json({ msg: false, errorMessage: "요청이 올바르지 않습니다." });
   }
-  const { post_img, img_position,post_content } = req.body;
+  const { post_img, img_position, post_content } = req.body;
 
   const esistsBoard = await Board.findOne({ where: { postId } });
   if (!esistsBoard) {
@@ -126,7 +124,7 @@ router.put("/:postId", authMiddleware, async (req, res) => {
   }
 
   const temp = await Board.update(
-    { img: post_img, img_position ,content: post_content },
+    { img: post_img, img_position, content: post_content },
     { where: { postId } }
   );
   console.log(temp);
