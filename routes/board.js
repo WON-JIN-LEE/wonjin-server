@@ -21,22 +21,26 @@ router.get("/", async (req, res) => {
         attributes: ["userId", "postId"],
       },
     ],
+    // order: [["updatedAt", "DESC"]],
+    
   });
-  const posts_obj = posts.map((ele) => {
-    const obj = {
-      post_id: ele["postId"],
-      userId: ele["userId"],
-      post_content: ele["content"],
-      post_img: ele["img"],
-      img_position: ele["img_position"],
-      nickname: ele["User"]["nickname"],
-      post_like: ele["Likes"].length,
-      createdAt: ele["createdAt"],
-      upload_date: ele["updatedAt"],
-    };
+  const posts_obj = posts
+    .map((ele) => {
+      const obj = {
+        post_id: ele["postId"],
+        userId: ele["userId"],
+        post_content: ele["content"],
+        post_img: ele["img"],
+        img_position: ele["img_position"],
+        nickname: ele["User"]["nickname"],
+        post_like: ele["Likes"].length,
+        createdAt: ele["createdAt"],
+        upload_date: ele["updatedAt"],
+      };
 
-    return obj;
-  });
+      return obj;
+    })
+    .sort((a, b) => b.upload_date - a.upload_date);
   res.json({ posts: posts_obj });
 });
 
