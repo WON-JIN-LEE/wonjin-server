@@ -32,7 +32,7 @@ router.get("/login", logedMiddleware, async (req, res) => {
 // 회원가입 api
 router.post("/register", async (req, res) => {
   const { user_id, nickname, user_pw, pw_check } = req.body;
-
+  console.log(user_id, nickname, user_pw, pw_check);
   try {
     await chkSchema.validateAsync({
       nickchk: nickname,
