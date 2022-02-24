@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    return res.status(200).send({
+    return res.status(202).send({
       msg: "닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성해야합니다. 비밀번호는 최소 4자 이상이어야 합니다.,",
     });
   }
@@ -52,20 +52,20 @@ router.post("/register", async (req, res) => {
   });
 
   if (existUsers.length) {
-    return res.status(400).send({
+    return res.status(202).send({
       msg: "이미 가입된 이메일 또는 닉네임이 있습니다.",
     });
   }
 
 
   if (user_pw.includes(nickname)) {
-    return res.status(400).send({
+    return res.status(202).send({
       msg: "비밀번호에 닉네임과 같은 값이 포함되면 안됩니다.",
     });
   }
 
   if (user_pw !== pw_check) {
-    return res.status(400).send({
+    return res.status(202).send({
       msg: "비밀번호가 일치하지 않습니다.",
     });
   }
@@ -84,14 +84,14 @@ router.post("/login", async (req, res) => {
 
   console.log(user);
   if (!user) {
-    return res.status(400).send({
+    return res.status(202).send({
       msg: "아이디와 패스워드가 잘못되었습니다.",
     });
   }
 
   const token = jwt.sign({ userId: user.userId }, process.env.TOKEN_SECRET_KEY);
   console.log(token);
-  res.send({ msg: true, mytoken: token, nickname: user.nickname });
+  res.status(401).send({ msg: true, mytoken: token, nickname: user.nickname });
 });
 
 // 로그아웃
