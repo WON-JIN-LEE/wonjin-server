@@ -18,14 +18,25 @@ router.get("/", async (req, res) => {
       {
         model: Like,
         required: false,
-        attributes: ["userId", "postId"],
+        attributes: ["userId"],
+        include: [
+          {
+            model: User,
+            required: false,
+            attributes: ["nickname"],
+          },
+        ],
       },
     ],
     // order: [["updatedAt", "DESC"]],
-    
   });
+
   const posts_obj = posts
     .map((ele) => {
+
+      const likeList = ele["Likes"].map((obj) =>  obj["User"].nickname);
+
+
       const obj = {
         post_id: ele["postId"],
         userId: ele["userId"],
@@ -34,6 +45,7 @@ router.get("/", async (req, res) => {
         img_position: ele["img_position"],
         nickname: ele["User"]["nickname"],
         post_like: ele["Likes"].length,
+        like_list: likeList,
         createdAt: ele["createdAt"],
         upload_date: ele["updatedAt"],
       };
@@ -42,6 +54,7 @@ router.get("/", async (req, res) => {
     })
     .sort((a, b) => b.upload_date - a.upload_date);
   res.json({ posts: posts_obj });
+
 });
 
 // 게시글 상세 조회 API
