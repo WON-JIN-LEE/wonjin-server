@@ -7,3 +7,4 @@ local_api_test.rest
 test.js
 .eslintrc.js
 config/*
+cert/*
