@@ -1,13 +1,23 @@
 const express = require("express");
 const Http = require("http");
+const Https = require("https");
+const fs = require("fs");
+const options = {
+  key: fs.readFileSync("./cert/rootca.key"),
+  cert: fs.readFileSync("./cert/rootca.crt"),
+};
+
 const cookieParser = require("cookie-parser");
 const requestMiddleware = require("./middlewares/requestMiddleware");
 const router = require("./routes");
 
 const app = express();
 const http = Http.createServer(app);
+const https = Https.createServer(options, app);
+
 const cors = require("cors");
-const port = 3000;
+const httpPort = 3000;
+const httpsPort = 443;
 
 const corsOptions = {
   origin: "클라이언트 도메인",
@@ -26,6 +36,10 @@ app.get("/", (req, res) => {
   res.send("hello wonjin world");
 });
 
-http.listen(port, () => {
-  console.log(port, "포트로 서버가 열렸어요!");
+http.listen(httpPort, () => {
+  console.log(httpPort, "포트로 서버가 열렸어요!");
+});
+
+https.listen(httpsPort, () => {
+  console.log(httpsPort, "포트로 서버가 열렸어요!");
 });
