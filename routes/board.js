@@ -77,6 +77,13 @@ router.get("/:postId", async (req, res) => {
         model: Like,
         required: false,
         attributes: ["userId", "postId"],
+        include: [
+          {
+            model: User,
+            required: false,
+            attributes: ["nickname"],
+          },
+        ],
       },
     ],
   });
@@ -87,6 +94,9 @@ router.get("/:postId", async (req, res) => {
       .json({ msg: false, errorMessage: "없는 게시글 입니다." });
   }
 
+    const likeList = post["Likes"].map((obj) => obj["User"].nickname);
+
+
   const post_obj = {
     post_id: post["postId"],
     userId: post["userId"],
@@ -95,6 +105,7 @@ router.get("/:postId", async (req, res) => {
     img_position: post["img_position"],
     nickname: post["User"]["nickname"],
     post_like: post["Likes"].length,
+    like_list: likeList,
     createdAt: post["createdAt"],
     upload_date: post["updatedAt"],
   };
