@@ -8,6 +8,7 @@ const app = express();
 const http = Http.createServer(app);
 const cors = require("cors");
 const port = 3000;
+
 const corsOptions = {
   origin: "클라이언트 도메인",
 };

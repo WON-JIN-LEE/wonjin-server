@@ -5,7 +5,7 @@
 - 제작기간 : 2022-02-19 ~ 2022-02-23
 
 ___
-<h3><b> Getting Started </b></h3>
+## Getting Started
 
 ```
 $ npm -ci
