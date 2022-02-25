@@ -17,7 +17,7 @@ const https = Https.createServer(options, app);
 
 const cors = require("cors");
 const httpPort = 3000;
-const httpsPort = 443;
+const httpsPort = 3443;
 
 const corsOptions = {
   origin: "클라이언트 도메인",
@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use(router);
 
 app.get("/", (req, res) => {
+  console.log(`Server is running on port ${req.secure ? httpsPort : httpPort}`);
   res.send("hello wonjin world");
 });
 
