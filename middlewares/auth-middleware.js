@@ -4,7 +4,7 @@ const { User } = require("../models/index");
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
-  console.log(Authorization);
+  console.log(authorization);
   if (!authorization) {
     return res.status(401).send({
       msg: "토근이 없습니다. 로그인 후 사용해주세요",
