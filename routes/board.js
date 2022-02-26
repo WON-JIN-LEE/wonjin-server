@@ -33,9 +33,7 @@ router.get("/", async (req, res) => {
 
   const posts_obj = posts
     .map((ele) => {
-
-      const likeList = ele["Likes"].map((obj) =>  obj["User"].nickname);
-
+      const likeList = ele["Likes"].map((obj) => obj["User"].nickname);
 
       const obj = {
         post_id: ele["postId"],
@@ -54,7 +52,6 @@ router.get("/", async (req, res) => {
     })
     .sort((a, b) => b.upload_date - a.upload_date);
   res.json({ posts: posts_obj });
-
 });
 
 // 게시글 상세 조회 API
@@ -94,8 +91,7 @@ router.get("/:postId", async (req, res) => {
       .json({ msg: false, errorMessage: "없는 게시글 입니다." });
   }
 
-    const likeList = post["Likes"].map((obj) => obj["User"].nickname);
-
+  const likeList = post["Likes"].map((obj) => obj["User"].nickname);
 
   const post_obj = {
     post_id: post["postId"],

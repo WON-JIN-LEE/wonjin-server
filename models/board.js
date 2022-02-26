@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-     this.belongsTo(models.User, {
-       foreignKey: "userId",
-       targetKey: "userId",
-     });
-     this.hasMany(models.Like, { foreignKey: "postId", sourceKey: "postId" });
+      this.belongsTo(models.User, {
+        foreignKey: "userId",
+        targetKey: "userId",
+      });
+      this.hasMany(models.Like, { foreignKey: "postId", sourceKey: "postId" });
     }
   }
   Board.init(
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Board",
       timestamps: true,
       charset: "utf8mb4",
-      collate: "utf8_generak_Ci",
+      collate: "utf8mb4_general_ci",
     }
   );
   return Board;

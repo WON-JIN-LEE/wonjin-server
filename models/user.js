@@ -8,14 +8,14 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-          this.hasMany(models.Board, {
-            foreignKey: "userId",
-            sourceKey: "userId",
-          });
-          this.hasMany(models.Like, {
-            foreignKey: "userId",
-            sourceKey: "userId",
-          });
+      this.hasMany(models.Board, {
+        foreignKey: "userId",
+        sourceKey: "userId",
+      });
+      this.hasMany(models.Like, {
+        foreignKey: "userId",
+        sourceKey: "userId",
+      });
     }
   }
   User.init(
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
       timestamps: true,
       charset: "utf8mb4",
-      collate: "utf8_generak_Ci",
+      collate: "utf8mb4_general_ci",
     }
   );
 
