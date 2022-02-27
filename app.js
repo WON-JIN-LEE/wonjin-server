@@ -2,16 +2,20 @@ const express = require("express");
 const Http = require("http");
 const cookieParser = require("cookie-parser");
 const requestMiddleware = require("./middlewares/requestMiddleware");
-const router = require("./routes");
 const dbConnect = require("./middlewares/dbConnect");
 
+const router = require("./routes");
+const helmet = require("helmet");
 const app = express();
 const http = Http.createServer(app);
 const cors = require("cors");
 const port = 3000;
 
-
+// db 연결 확인
 dbConnect();
+
+app.use(helmet.xssFilter());
+app.use(helmet.contentSecurityPolicy());
 
 app.use(cors());
 app.use(requestMiddleware);

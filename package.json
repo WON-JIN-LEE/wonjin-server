@@ -4,7 +4,7 @@
   "description": "프론트엔드와 함께 로그인 사용자용 매거진 사이트 만들기",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "lint": "eslint routes --fix"
   },
   "repository": {
@@ -23,17 +23,21 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "helmet": "^5.0.2",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.2",
     "socket.io": "^4.4.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "sequelize-cli": "^6.4.1"
+    "jest": "^27.5.1",
+    "sequelize-cli": "^6.4.1",
+    "supertest": "^6.2.2"
   }
 }
