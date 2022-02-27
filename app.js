@@ -1,5 +1,4 @@
 const express = require("express");
-const Http = require("http");
 const cookieParser = require("cookie-parser");
 const requestMiddleware = require("./middlewares/requestMiddleware");
 const dbConnect = require("./middlewares/dbConnect");
@@ -7,9 +6,8 @@ const dbConnect = require("./middlewares/dbConnect");
 const router = require("./routes");
 const helmet = require("helmet");
 const app = express();
-const http = Http.createServer(app);
+
 const cors = require("cors");
-const port = 3000;
 
 // db 연결 확인
 dbConnect();
@@ -27,9 +25,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use(router);
 
 app.get("/", (req, res) => {
-  res.send("hello wonjin world");
+  res.status(200).send("hello wonjin world");
 });
 
-http.listen(port, () => {
-  console.log(port, "포트로 서버가 열렸어요!");
-});
+module.exports = app;
