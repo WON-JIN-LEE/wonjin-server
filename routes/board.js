@@ -1,5 +1,5 @@
 const express = require("express");
-const authMiddleware = require("../middlewares/auth-middleware");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 const { Op } = require("sequelize");
 const { Board, Like, User } = require("../models/index");

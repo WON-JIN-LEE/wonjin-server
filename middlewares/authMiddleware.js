@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
   } catch (error) {
     console.log("error :" + error);
     return res.status(401).send({
-      msg: "로그인 후 사용해주세요",
+      msg: error,
     });
   }
 };
