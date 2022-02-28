@@ -10,7 +10,7 @@ const app = express();
 const cors = require("cors");
 
 // db 연결 확인
-dbConnect();
+// dbConnect();
 
 app.use(helmet.xssFilter());
 app.use(helmet.contentSecurityPolicy());
@@ -27,5 +27,6 @@ app.use(router);
 app.get("/", (req, res) => {
   res.status(200).send("hello wonjin world");
 });
+
 
 module.exports = app;

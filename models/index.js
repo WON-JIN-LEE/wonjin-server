@@ -1,10 +1,12 @@
 "use strict";
+require("dotenv").config();
 
 const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "development";
+
+const env = process.env.TEST || "development"; // DB config에서 연결할 DB 선택
 const config = require(__dirname + "/../config/config.json")[env];
 const db = {};
 
@@ -42,7 +44,5 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-
 
 module.exports = db;

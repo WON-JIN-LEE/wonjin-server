@@ -11,10 +11,12 @@ module.exports = (sequelize, DataTypes) => {
        this.belongsTo(models.Board, {
          foreignKey: "postId",
          targetKey: "postId",
+         onDelete: "CASCADE",
        });
        this.belongsTo(models.User, {
          foreignKey: "userId",
          targetKey: "userId",
+         onDelete: "CASCADE",
        });
     }
   }

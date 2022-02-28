@@ -106,7 +106,7 @@ router.get("/:postId", async (req, res) => {
     upload_date: post["updatedAt"],
   };
 
-  res.json({ post: post_obj });
+  res.status(200).json({ post: post_obj });
 });
 
 // // 게시글 추가 API
@@ -152,7 +152,7 @@ router.put("/:postId", authMiddleware, async (req, res) => {
     { where: { postId } }
   );
   console.log(temp);
-  res.json({ msg: true });
+  res.status(200).json({ msg: true });
 });
 
 // 게시글 삭제 API
