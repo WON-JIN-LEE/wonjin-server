@@ -16,15 +16,17 @@ const chkSchema = joi.object({
 router.get("/register", logedMiddleware, async (req, res) => {
   const { loggedin } = res.locals;
   if (loggedin) {
-    res.json({ msg: "이미 로그인된 사용자입니다." });
+    res.status(404).json({ msg: "이미 로그인된 사용자입니다." });
   }
+  res.status(200).send({});
 });
 
 router.get("/login", logedMiddleware, async (req, res) => {
   const { loggedin } = res.locals;
   if (loggedin) {
-    res.json({ msg: "이미 로그인된 사용자입니다." });
+    res.status(404).json({ msg: "이미 로그인된 사용자입니다." });
   }
+  res.status(200).send({});
 });
 
 // 회원가입 api
@@ -96,9 +98,9 @@ router.post("/login", async (req, res) => {
 });
 
 // 로그아웃
-router.delete("/logout", authMiddleware, async (req, res) => {
+router.post("/logout", authMiddleware, async (req, res) => {
   res.clearCookie("mytoken");
-  res.json({ msg: "로그아웃 되었습니다." });
+  res.status(200).json({ msg: "로그아웃 되었습니다." });
 });
 
 module.exports = router;

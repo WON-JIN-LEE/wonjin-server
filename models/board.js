@@ -11,8 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       this.belongsTo(models.User, {
         foreignKey: "userId",
         targetKey: "userId",
+        onDelete: "cascade",
       });
-      this.hasMany(models.Like, { foreignKey: "postId", sourceKey: "postId" });
+      this.hasMany(models.Like, {
+        foreignKey: "postId",
+        sourceKey: "postId",
+      });
     }
   }
   Board.init(

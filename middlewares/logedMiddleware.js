@@ -2,7 +2,7 @@ require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { User } = require("../models/index");
 
-const logedMiddleware = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   console.log(req.cookies);
 
   const { mytoken } = req.cookies;
@@ -38,4 +38,3 @@ const logedMiddleware = async (req, res, next) => {
     next();
   }
 };
-module.exports = logedMiddleware;
