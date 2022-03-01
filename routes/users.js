@@ -1,12 +1,12 @@
 const express = require("express");
 
 const router = express.Router();
-const logedMiddleware = require("../middlewares/logedMiddleware");
+const loggedMiddleware = require("../middlewares/loggedMiddleware");
 const controls = require("../controllers");
 
-router.get("/register", logedMiddleware, controls.checkLogin);
+router.get("/register", loggedMiddleware, controls.checkLogin);
 
-router.get("/login", logedMiddleware, controls.checkLogin);
+router.get("/login", loggedMiddleware, controls.checkLogin);
 
 router.post("/register", controls.userSignUp);
 

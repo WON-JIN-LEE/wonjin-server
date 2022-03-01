@@ -1,4 +1,4 @@
-const logedMiddleware = require("../../middlewares/logedMiddleware");
+const logedMiddleware = require("../../middlewares/loggedMiddleware");
 
 const res = {
   locals: jest.fn(() => (isLoggedIn = false)),
@@ -12,8 +12,8 @@ describe("logedMiddleware test", () => {
     const next = jest.fn();
 
     const req = {
-      cookies: {
-        mytoken:
+      headers: {
+        cookie:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.e7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU",
       },
     };
@@ -25,8 +25,8 @@ describe("logedMiddleware test", () => {
     const next = jest.fn();
 
     const req = {
-      cookies: {
-        mytoken:
+      headers: {
+        cookie:
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.Re7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU",
       },
     };
@@ -38,8 +38,8 @@ describe("logedMiddleware test", () => {
     const next = jest.fn();
 
     const req = {
-      cookies: {
-        mytoken:
+      headers: {
+        cookie:
           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.Re7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU",
       },
     };

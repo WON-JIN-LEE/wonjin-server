@@ -4,8 +4,7 @@ const { User } = require("../models/index");
 
 module.exports = async (req, res, next) => {
   res.locals.isLoggedIn = false;
-
-  const { mytoken } = req.cookies;
+  const mytoken = `Bearer ${req.headers.cookie}`;
   try {
     const [tokenType, tokenValue] = mytoken.split(" ");
 
