@@ -28,7 +28,7 @@ router.get("/", async (req, res) => {
         ],
       },
     ],
-    // order: [["updatedAt", "DESC"]],
+    order: [["updatedAt", "DESC"]],
   });
 
   const posts_obj = posts
@@ -49,8 +49,7 @@ router.get("/", async (req, res) => {
       };
 
       return obj;
-    })
-    .sort((a, b) => b.upload_date - a.upload_date);
+    });
   res.json({ posts: posts_obj });
 });
 

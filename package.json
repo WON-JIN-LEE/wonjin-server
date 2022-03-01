@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
+    "coverage": "jest --coverage",
     "lint": "eslint routes --fix"
   },
   "repository": {

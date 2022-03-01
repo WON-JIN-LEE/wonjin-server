@@ -9,3 +9,5 @@ test.js
 config/*
 cert/*
 *.yml
+coverage
+.idea
