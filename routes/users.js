@@ -1,10 +1,8 @@
 const express = require("express");
 
 const router = express.Router();
-const authMiddleware = require("../middlewares/authMiddleware");
 const logedMiddleware = require("../middlewares/logedMiddleware");
-const controls = require("../controllers")
-
+const controls = require("../controllers");
 
 router.get("/register", logedMiddleware, controls.checkLogin);
 

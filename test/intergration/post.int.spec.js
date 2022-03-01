@@ -70,22 +70,22 @@ describe("Boards 테스트 그룹", () => {
           post_img: "test/777.img",
           post_content: "테스트코드 test",
         });
-       const res2 = await request(app)
-         .post(`/post`)
-         .set("authorization", `Bearer ${mytoken}`)
-         .send({
-           img_position: "left",
-           post_img: "",
-           post_content: "테스트코드 test",
-         });
-       const res3 = await request(app)
-         .post(`/post`)
-         .set("authorization", `Bearer ${mytoken}`)
-         .send({
-           img_position: "left",
-           post_img: "test/777.img",
-           post_content: "",
-         });
+      const res2 = await request(app)
+        .post(`/post`)
+        .set("authorization", `Bearer ${mytoken}`)
+        .send({
+          img_position: "left",
+          post_img: "",
+          post_content: "테스트코드 test",
+        });
+      const res3 = await request(app)
+        .post(`/post`)
+        .set("authorization", `Bearer ${mytoken}`)
+        .send({
+          img_position: "left",
+          post_img: "test/777.img",
+          post_content: "",
+        });
 
       expect(res1.status).toStrictEqual(400);
       expect(res2.status).toStrictEqual(400);

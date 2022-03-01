@@ -4,7 +4,6 @@ const router = express.Router();
 
 const controls = require("../controllers");
 
-
 // 전체 게시글 목록 조회 API
 router.get("/", controls.getBoards);
 

@@ -1,7 +1,8 @@
+require("dotenv").config();
+
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 const { User } = require("../models/index");
-require("dotenv").config();
 const joi = require("joi");
 
 const chkSchema = joi.object({
@@ -10,11 +11,11 @@ const chkSchema = joi.object({
 });
 
 const checkLogin = async (req, res) => {
-  const { loggedin } = res.locals;
-  if (loggedin) {
+  const { isLoggedIn } = res.locals;
+  if (isLoggedIn) {
     return res.status(400).json({ msg: "이미 로그인된 사용자입니다." });
   }
-  res.status(200).send({});
+  res.status(200).send({ msg: "로그인 되지 않았습니다." });
 };
 
 const userSignUp = async (req, res) => {
@@ -66,7 +67,6 @@ const userSignIn = async (req, res) => {
     where: { userId: user_id, password: user_pw },
   });
 
-  console.log(user);
   if (!user) {
     return res.status(400).json({
       msg: "아이디와 패스워드가 잘못되었습니다.",
@@ -78,7 +78,6 @@ const userSignIn = async (req, res) => {
     process.env.TOKEN_SECRET_KEY,
     { expiresIn: "15m" }
   );
-  console.log(token);
   res.status(201).json({ msg: true, mytoken: token, nickname: user.nickname });
 };
 
