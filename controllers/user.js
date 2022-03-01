@@ -12,21 +12,20 @@ const chkSchema = joi.object({
 const checkLogin = async (req, res) => {
   const { loggedin } = res.locals;
   if (loggedin) {
-    res.status(404).json({ msg: "이미 로그인된 사용자입니다." });
+    return res.status(400).json({ msg: "이미 로그인된 사용자입니다." });
   }
   res.status(200).send({});
 };
 
 const userSignUp = async (req, res) => {
   const { user_id, nickname, user_pw, pw_check } = req.body;
-  console.log(user_id, nickname, user_pw, pw_check);
   try {
     await chkSchema.validateAsync({
       nickchk: nickname,
       password: user_pw,
     });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     return res.status(400).json({
       msg: "닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성해야합니다. 비밀번호는 최소 4자 이상이어야 합니다.",
     });

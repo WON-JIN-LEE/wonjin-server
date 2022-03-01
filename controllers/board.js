@@ -81,16 +81,16 @@ const getDetailBoard = async (req, res) => {
   }
 
   const post = {
-    post_id: post["postId"],
-    userId: post["userId"],
-    post_content: post["content"],
-    post_img: post["img"],
-    img_position: post["img_position"],
-    nickname: post["User"]["nickname"],
-    post_like: post["Likes"].length,
-    like_list: post["Likes"].map((obj) => obj["User"].nickname),
-    createdAt: post["createdAt"],
-    upload_date: post["updatedAt"],
+    post_id: onePost["postId"],
+    userId: onePost["userId"],
+    post_content: onePost["content"],
+    post_img: onePost["img"],
+    img_position: onePost["img_position"],
+    nickname: onePost["User"]["nickname"],
+    post_like: onePost["Likes"].length,
+    like_list: onePost["Likes"].map((obj) => obj["User"].nickname),
+    createdAt: onePost["createdAt"],
+    upload_date: onePost["updatedAt"],
   };
 
   res.status(200).json({ post });
