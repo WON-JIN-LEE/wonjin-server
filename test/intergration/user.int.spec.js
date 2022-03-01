@@ -25,7 +25,6 @@ beforeAll(async () => {
     });
 });
 
-
 test("GET / 회원가입 페이지 Code 200", async () => {
   const res = await request(app).get("/register");
   expect(res.status).toStrictEqual(200);
@@ -37,14 +36,63 @@ test("GET / 로그인페이지 Code 200", async () => {
 });
 
 describe("회원가입, 로그인 테스트", () => {
-  it("POST /register 회원가입 체크 Status 200", async () => {
+  it("POST /register 회원가입 체크 Status 201", async () => {
     const res = await request(app).post("/register").send({
       user_id: "won1",
-      nickname: "kokokokoko",
+      nickname: "koko123",
       user_pw: "won11",
       pw_check: "won11",
     });
-    expect(res.status).toStrictEqual(201);
+    expect(res.status).toEqual(201);
+  });
+
+  describe("회원가입 에러", () => {
+    it("닉네임, PW 형식 미흡 Status 400", async () => {
+      const res = await request(app).post("/register").send({
+        user_id: "won3",
+        nickname: "ttt",
+        user_pw: "won",
+        pw_check: "won",
+      });
+      expect(res.status).toStrictEqual(400);
+    });
+    it("/register 이미 가입된 이메일 또는 닉네임 Status 400", async () => {
+      const res = await request(app).post("/register").send({
+        user_id: "won1",
+        nickname: "koko123",
+        user_pw: "won11",
+        pw_check: "won11",
+      });
+      expect(res.status).toStrictEqual(400);
+    });
+
+    it("비밀번호에 닉네임 포함된 에러 Status 400", async () => {
+      const res = await request(app).post("/register").send({
+        user_id: "won",
+        nickname: "nick",
+        user_pw: "nick12345",
+        pw_check: "nick1234",
+      });
+      expect(res.status).toStrictEqual(400);
+    });
+
+    it("비밀번호에 다름 Status 400", async () => {
+      const res = await request(app).post("/register").send({
+        user_id: "won1",
+        nickname: "ni123ck",
+        user_pw: "nidsadck12345",
+        pw_check: "k1234",
+      });
+      expect(res.status).toStrictEqual(400);
+    });
+  });
+
+  it(" ID, PW 다르다. / 로그인 실패 Status 400", async () => {
+    const res = await request(app).post("/login").send({
+      user_id: "won1",
+      user_pw: "won22",
+    });
+    expect(res.status).toStrictEqual(400);
   });
 
   it("POST /login 로그인 성공 Status 201", async () => {
@@ -52,7 +100,8 @@ describe("회원가입, 로그인 테스트", () => {
       user_id: "won1",
       user_pw: "won11",
     });
-    expect(res.status).toStrictEqual(201);
+
+    expect(res.status).toEqual(201);
     mytoken = res.body.mytoken;
   });
 
@@ -82,13 +131,6 @@ describe("회원가입, 로그인 테스트", () => {
         .send(postData);
       expect(res.status).toStrictEqual(401);
     });
-  });
-
-  it("POST /logout 로그아웃 Status 200", async () => {
-    const res = await request(app)
-      .post("/logout")
-      .set("authorization", `Bearer ${mytoken}`);
-    expect(res.status).toStrictEqual(200);
   });
 });
 
