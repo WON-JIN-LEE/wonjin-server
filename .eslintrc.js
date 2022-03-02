@@ -5,7 +5,7 @@ module.exports = {
     node: true,
     es2021: true,
   },
-  extends: ['plugin:prettier/recommended'],
+  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
   rules: {
     'no-unused-vars': ['off'],
     'no-console': 'warn',
