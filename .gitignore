@@ -5,6 +5,8 @@ node_modules
 AWS_api_test.rest
 local_api_test.rest
 test.js
-.eslintrc.js
 config/*
-cert/
+cert/*
+*.yml
+coverage
+.idea
