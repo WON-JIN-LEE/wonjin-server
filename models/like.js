@@ -1,5 +1,5 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Like extends Model {
     /**
@@ -8,14 +8,16 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-       this.belongsTo(models.Board, {
-         foreignKey: "postId",
-         targetKey: "postId",
-       });
-       this.belongsTo(models.User, {
-         foreignKey: "userId",
-         targetKey: "userId",
-       });
+      this.belongsTo(models.Board, {
+        foreignKey: 'postId',
+        targetKey: 'postId',
+        onDelete: 'CASCADE',
+      });
+      this.belongsTo(models.User, {
+        foreignKey: 'userId',
+        targetKey: 'userId',
+        onDelete: 'CASCADE',
+      });
     }
   }
   Like.init(
@@ -29,10 +31,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Like",
+      modelName: 'Like',
       timestamps: true,
-      charset: "utf8mb4",
-      collate: "utf8_generak_Ci",
+      charset: 'utf8mb4',
+      collate: 'utf8mb4_general_ci',
     }
   );
   return Like;
