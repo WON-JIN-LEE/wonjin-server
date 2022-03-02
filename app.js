@@ -1,7 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const requestMiddleware = require('./middlewares/requestMiddleware');
-var test = 1;
 const router = require('./routes');
 const helmet = require('helmet');
 const app = express();

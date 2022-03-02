@@ -5,7 +5,6 @@ node_modules
 AWS_api_test.rest
 local_api_test.rest
 test.js
-
 config/*
 cert/*
 *.yml
