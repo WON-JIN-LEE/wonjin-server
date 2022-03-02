@@ -1,5 +1,5 @@
 module.exports = {
-  ...require("./board"),
-  ...require("./like"),
-  ...require("./user"),
+  ...require('./board'),
+  ...require('./like'),
+  ...require('./user'),
 };

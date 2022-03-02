@@ -1,4 +1,5 @@
-const logedMiddleware = require("../../middlewares/loggedMiddleware");
+/* eslint-disable no-undef */
+const loggedMiddleware = require('../../middlewares/loggedMiddleware');
 
 const res = {
   locals: jest.fn(() => (isLoggedIn = false)),
@@ -7,43 +8,43 @@ const res = {
   send: jest.fn(),
 };
 
-describe("logedMiddleware test", () => {
-  test("잘못된 토큰 에러", async () => {
+describe('logedMiddleware test', () => {
+  test('잘못된 토큰 에러', async () => {
     const next = jest.fn();
 
     const req = {
       headers: {
         cookie:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.e7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU",
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.e7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU',
       },
     };
-    logedMiddleware(req, res, next);
+    loggedMiddleware(req, res, next);
     expect(next).toBeCalledTimes(1);
   });
 
-  test("토큰 타입 없음", async () => {
+  test('토큰 타입 없음', async () => {
     const next = jest.fn();
 
     const req = {
       headers: {
         cookie:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.Re7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU",
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.Re7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU',
       },
     };
-    logedMiddleware(req, res, next);
+    loggedMiddleware(req, res, next);
     expect(next).toHaveBeenCalledTimes(1);
   });
 
-  test("logedMiddleware test", async () => {
+  test('logedMiddleware test', async () => {
     const next = jest.fn();
 
     const req = {
       headers: {
         cookie:
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.Re7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU",
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0MSIsImlhdCI6MTY0NTU4ODkwOX0.Re7MAZZ3dC_uVWdPJx08b9nzX6k8sZLz0MCOcsKR7sU',
       },
     };
-    logedMiddleware(req, res, next);
+    loggedMiddleware(req, res, next);
     expect(next).toBeCalledTimes(1);
   });
 });

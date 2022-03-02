@@ -1,12 +1,12 @@
-const express = require("express");
-const cookieParser = require("cookie-parser");
-const requestMiddleware = require("./middlewares/requestMiddleware");
-
-const router = require("./routes");
-const helmet = require("helmet");
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const requestMiddleware = require('./middlewares/requestMiddleware');
+var test = 1;
+const router = require('./routes');
+const helmet = require('helmet');
 const app = express();
 
-const cors = require("cors");
+const cors = require('cors');
 
 app.use(helmet.xssFilter());
 app.use(helmet.contentSecurityPolicy());
@@ -20,8 +20,8 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 // route
 app.use(router);
 
-app.get("/", (req, res) => {
-  res.status(200).send("hello wonjin world");
+app.get('/', (req, res) => {
+  res.status(200).send('hello wonjin world');
 });
 
 module.exports = app;

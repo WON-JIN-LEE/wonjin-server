@@ -1,12 +1,14 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const { User } = require("../models/index");
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const { User } = require('../models/index');
 
 module.exports = async (req, res, next) => {
   res.locals.isLoggedIn = false;
-  const mytoken = `Bearer ${req.headers.cookie}`;
+
   try {
-    const [tokenType, tokenValue] = mytoken.split(" ");
+    const mytoken = `Bearer ${req.cookies.mytoken}`;
+
+    const [tokenType, tokenValue] = mytoken.split(' ');
 
     //  토큰 검사
     const { userId } = jwt.verify(tokenValue, process.env.TOKEN_SECRET_KEY);
