@@ -12,14 +12,7 @@ const httpPort = 3000;
 
 // const Https = require('https');
 // const https = Https.createServer(options, app);
-const httpsPort = 3443;
-
-app.get('/', (req, res) => {
-    console.log(
-        `Server is running on port ${req.secure ? httpsPort : httpPort}`
-    );
-    res.send('hello wonjin world');
-});
+const httpsPort : number = 3443;
 
 http.listen(httpPort, () => {
     console.log(httpPort, '포트로 서버가 열렸어요!');
