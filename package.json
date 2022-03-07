@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --detectOpenHandles",
     "coverage": "jest --coverage --detectOpenHandles",
-    "lint": "eslint routes --fix",
+    "lint": "eslint --fix",
     "prettify": "prettier --write *.js **/*.js"
   },
   "repository": {
@@ -40,9 +40,8 @@
     "eslint": "^8.9.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.29.2",
     "jest": "^27.5.1",
-    "prettier": "^2.5.1",
+    "prettier": "2.5.1",
     "sequelize-cli": "^6.4.1",
     "supertest": "^6.2.2"
   }

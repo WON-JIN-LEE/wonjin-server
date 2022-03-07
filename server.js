@@ -7,11 +7,11 @@ const options = {
 };
 
 const Http = require('http');
-const Https = require('https');
 const http = Http.createServer(app);
-const https = Https.createServer(options, app);
-
 const httpPort = 3000;
+
+// const Https = require('https');
+// const https = Https.createServer(options, app);
 const httpsPort = 3443;
 
 app.get('/', (req, res) => {
@@ -23,6 +23,6 @@ http.listen(httpPort, () => {
   console.log(httpPort, '포트로 서버가 열렸어요!');
 });
 
-https.listen(httpsPort, () => {
-  console.log(httpsPort, '포트로 서버가 열렸어요!');
-});
+// https.listen(httpsPort, () => {
+//   console.log(httpsPort, '포트로 서버가 열렸어요!');
+// });
