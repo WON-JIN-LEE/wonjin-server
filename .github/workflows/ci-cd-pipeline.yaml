@@ -59,7 +59,7 @@ jobs:
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
-          username: wonjin
+          username: vopgh0409
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           source: "docker-compose.yaml"
