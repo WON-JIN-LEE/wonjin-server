@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use(router);
 
 app.get('/', (req, res) => {
-  res.status(200).send('hello wonjin world');
+    res.status(200).send('git action test');
 });
 
 module.exports = app;
