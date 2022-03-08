@@ -2,8 +2,7 @@ name: ci-cd-pipeline
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,7 +20,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build
     
   build-image:
     needs: build
@@ -49,7 +48,7 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-        
+
   cd-pipeline:
       needs: build-image
       name: continuos deploy
@@ -64,7 +63,7 @@ jobs:
             key: ${{ secrets.PRIVATE_KEY }}
             port: 22
             source: "docker-compose.yaml"
-            target: "/home/ubuntu/"
+            target: "/home/ubuntu/sparta/nodejs-wonjin-server/docker"
         - name: executing remote ssh commands using password
           uses: appleboy/ssh-action@master
           with:
